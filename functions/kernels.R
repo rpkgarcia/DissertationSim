@@ -15,14 +15,10 @@ bartlett <- function(x){
 
 # Quadratic Spectral 
 qs <- function(x){
-  if(x ==0){
-    k_x <- 1
-  } else {
     p1 <- sin(6*pi*x/5)/(6*pi*x/5)
     p2 <- cos(6*pi*x/5)
     p3 <- 25/(12*pi^2*x^2)
     k_x <- p3*(p1-p2) 
-  }
   return(k_x)
 }
 
