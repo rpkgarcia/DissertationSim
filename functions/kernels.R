@@ -46,16 +46,16 @@ parzen <- function(x){
 
 
 # Lugsail Transformation (main)
-lugsail <- function(x, lugsail_parameters, kernel= bartlett){
+lugsail <- function(x, lugsail_parameters, the_kernel= bartlett){
   r <- lugsail_parameters$r 
   c <- lugsail_parameters$c
   
   # Actual lugsail 
-  y1 <- kernel(x)/(1-c) 
+  y1 <- the_kernel(x)/(1-c) 
   y2 <- 0 
   
   if(abs(x) < 1/r){
-    y2 <- kernel(x*r)*c/(1-c) 
+    y2 <- the_kernel(x*r)*c/(1-c) 
   }
   y <- y1- y2
   
