@@ -2,7 +2,7 @@
 url <- "https://raw.githubusercontent.com/rpkgarcia/DissertationSim/main/support_functions/"
 source(paste(url, "kernel_stats.R", sep = ""))
 
-optimal_b <- function(rho=0.7, alpha=0.05, big_T=200, kernel=1, mother=1, d=1){
+optimal_b_zero <- function(rho=0.7, alpha=0.05, big_T=200, kernel=1, mother=1, d=1){
   the_cv <- qchisq(1-alpha, df = d)
   c2 <- all_c2[[kernel]][[mother]]
   
