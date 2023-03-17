@@ -5,12 +5,13 @@
 
 # the_sim_data: 
 #     - Contains `big_T` simulated dependent random vectors of dimension (d x 1).
-#     - Should already be centered with hypothesized or estimated means.
+#     - already centered. 
 # h: is the lag-h autocovariance calculated
 
 R <- function(h, the_sim_data){
   big_T <- nrow(the_sim_data)
   index <- 1:(big_T -h)
+  
   
   # Already centered
   est <- lapply(index, function(i){

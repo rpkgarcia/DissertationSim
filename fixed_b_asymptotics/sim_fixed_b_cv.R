@@ -1,7 +1,7 @@
 # -------------------------------------------------------------------------
 # Load Functions ----------------------------------------------------------
 # -------------------------------------------------------------------------
-url <- "https://raw.githubusercontent.com/rpkgarcia/DissertationSim/main/functions/"
+url <- "https://raw.githubusercontent.com/rpkgarcia/DissertationSim/main/support_functions/"
 
 source(paste(url, "est_autocov.R", sep = ""))
 source(paste(url, "kernels.R", sep = ""))
@@ -75,10 +75,9 @@ simulate_f_stat <- function(big_T = 1000, d_max = 12){
   
   # Simulate the data 
   sim_data <- matrix(rnorm(d_max*big_T), nrow = big_T, ncol = d_max)
-  the_means <- colMeans(sim_data)
-  sim_data <- apply(sim_data, 1, function(row) row - the_means)
-  sim_data <- t(sim_data)
-  
+  the_means <- colMeans(the_sim_data)
+  the_sim_data <- apply(the_sim_data, 1, function(row) row - the_means)
+  the_sim_data <- t(the_sim_data)
   
   # ------- AutoCovariance Matrices  -------
   # [#, ] the lag (0, ..., big_T-1)
@@ -164,13 +163,14 @@ try_b <-  seq(0.005, .99, by = 0.005)
 
 # How many replicates
 # KV005 used 50,0000
-num_replicates <- 100
+num_replicates <- 10000
 
 # Sample size of each replicate
 big_T = 1000
 
 # Maximum number of dimensions
-d_max = 12
+# Should do 12
+d_max = 2
 
 
 # -------------------------------------------------------------------------
@@ -184,12 +184,12 @@ all_F_stats = replicate(num_replicates,
 # [  ,  , #,  ] : the original kernel (1), and lugsail (2) [1:2]
 # [  ,  ,  , #] : each simulation [1:num_replicates]
 
-dimnames(all_F_stats)[[1]] = paste("b", try_b, sep="")
-dimnames(all_F_stats)[[2]] = paste("d", 1:m_max, sep="")
-dimnames(all_F_stats)[[3]] = c("Bartlett", "Bartlett_Lugsail") 
+dimnames(all_F_stats)[[1]] <- try_b
+dimnames(all_F_stats)[[2]] <- 1:d_max
+dimnames(all_F_stats)[[3]] <- c("Bartlett", "Bartlett_Lugsail") 
 # "Parzen", "Parzen_Lugsail", 
 # "QS", "QS_Lugsail")
-dimnames(all_F_stats)[[4]] = paste("sim", 1:num_replicates, sep="")
+dimnames(all_F_stats)[[4]] <- paste("sim", 1:num_replicates, sep="")
 
 # -------------------------------------------------------------------------
 # Create CV Tables --------------------------------------------------------

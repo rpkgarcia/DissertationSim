@@ -3,7 +3,7 @@
 library(stringr)
 
 # Support Functions -------------------------------------------------------
-url <- "https://raw.githubusercontent.com/rpkgarcia/DissertationSim/main/functions/"
+url <- "https://raw.githubusercontent.com/rpkgarcia/DissertationSim/main/support_functions/"
 
 source(paste(url, "kernels.R", sep = ""))
 
