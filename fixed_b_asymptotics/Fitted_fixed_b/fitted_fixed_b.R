@@ -32,7 +32,8 @@ the_fits <- lapply(files, function(the_file){
   cv_matrix <- read.csv(the_file)
   the_kernel <- gsub("_","", str_extract(the_file, "[[:alpha:]]+_"))
   is_lugsail <- grepl("Lugsail", the_file)
-  alpha <- as.numeric(gsub("\\.csv","",str_extract(the_file, "[[:digit:]]+\\.csv")))/100
+  alpha <- as.numeric(paste(".", gsub("\\.csv","",str_extract(the_file, "[[:digit:]]+\\.csv")), sep=""))
+
   
   
   the_fits <- sapply(1:(ncol(cv_matrix)-1), function(d){

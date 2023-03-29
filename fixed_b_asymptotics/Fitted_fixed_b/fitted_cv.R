@@ -1,5 +1,5 @@
 
-fitted_cv <- "https://raw.githubusercontent.com/rpkgarcia/DissertationSim/main/fixed_b_asymptotics/Fitted_fixed_b/fitted_CV.csv/"
+fitted_cv <- "https://raw.githubusercontent.com/rpkgarcia/DissertationSim/main/fixed_b_asymptotics/Fitted_fixed_b/fitted_CV.csv"
 
 source(paste(url, "est_autocov.R", sep = ""))
 source(paste(url, "kernels.R", sep = ""))
@@ -34,6 +34,7 @@ fitted_model <- function(d, cv_matrix, alpha){
 get_cv <- function(d, alpha, the_kernel, is_lugsail, new_b){
   # Read in all fitted values 
   the_fits <- read.csv(fitted_cv)
+  chisq_cv <-  qchisq(1-alpha, df = d)/d 
   
   # Pull out only the values you need 
   index <- the_fits$kernel == the_kernel & the_fits$is_lugsail == is_lugsail &
@@ -44,7 +45,7 @@ get_cv <- function(d, alpha, the_kernel, is_lugsail, new_b){
   
   # Fitted value of b 
   new_b<-data.frame(poly(new_b, 3, raw = T))
-  cv_by_b <- apply(new_b, 1, function(x) sum(x*fit$coefficients))
+  cv_by_b <- apply(new_b, 1, function(x) sum(x*coefficients))
   cv_by_b <- cv_by_b + chisq_cv
   
   return(cv_by_b)
