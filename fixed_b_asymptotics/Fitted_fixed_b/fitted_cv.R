@@ -1,6 +1,7 @@
 
 fitted_cv <- "https://raw.githubusercontent.com/rpkgarcia/DissertationSim/main/fixed_b_asymptotics/Fitted_fixed_b/fitted_CV.csv"
 
+url <- "https://raw.githubusercontent.com/rpkgarcia/DissertationSim/main/support_functions/"
 source(paste(url, "est_autocov.R", sep = ""))
 source(paste(url, "kernels.R", sep = ""))
 
