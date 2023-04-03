@@ -43,7 +43,6 @@ parzen <- function(x){
 
 # Lugsail Transformation (main)
 lugsail <- function(x, lugsail_parameters, the_kernel= bartlett){
-  browser()
   r <- lugsail_parameters$r 
   c <- lugsail_parameters$c
   

@@ -46,6 +46,9 @@ start_plot("mother_kernels")
 par(mfrow = c(1,3))
 x <- seq(0, 1, length.out = 1000)
 range_y <- c(0, 1.4)
+
+
+
 plot(x, sapply(x, bartlett), 
      ylab = "", 
      xlab = "x", 
@@ -68,6 +71,9 @@ lines(x, sapply(x, lugsail,
       col = "green", lty = 4)
 axis(side=1, at=seq(0, 1, by = 0.5), labels = T)
 axis(side=1, at=seq(0, 1, by = 0.25), labels = F)
+
+
+
 
 plot(x, sapply(x, parzen), 
      ylab = "", 
@@ -119,5 +125,8 @@ lines(x, sapply(x, lugsail,
       col = "green", lty = 4)
 axis(side=1, at=seq(-1, 1, by = 1), labels = T)
 axis(side=1, at=seq(-1, 1, by = 0.25), labels = F)
+
+
+
 dev.off()
 
