@@ -23,7 +23,7 @@ type2_error <- function(b, rho=0.7, alpha=0.05, big_T=200, d=1, ncp = 5.67,
   c_b <- 2*rho*rho^floor(b*big_T)/(1+rho)
   w_q <- all_w_q(q, rho)
   g_q <- all_g_q[[the_kernel]]
-  c<- 1
+  c <- 1
   
   if(mother == 2){
     c <- 0 
@@ -32,8 +32,8 @@ type2_error <- function(b, rho=0.7, alpha=0.05, big_T=200, d=1, ncp = 5.67,
   
   p1 <- pchisq(the_cv, df = d, ncp = ncp)
   #p1 <- 0
-  p2 <- b*dchisq(the_cv, df = d, ncp = ncp)*the_cv*c2*(the_cv+2)/2      # b to be bigger 
-  p3 <- dchisq(the_cv, df = d, ncp = ncp)*the_cv*c_b                    # b to be smaller 
+  p2 <- -b*dchisq(the_cv, df = d, ncp = ncp)*the_cv*c2*(the_cv+2)/2      # b to be bigger 
+  p3 <- -dchisq(the_cv, df = d, ncp = ncp)*the_cv*c_b                    # b to be smaller 
   p4 <-  c*dchisq(the_cv, df = d, ncp = ncp)*the_cv*g_q*w_q*(b*big_T)^(-q) # b to be smaller 
   
   p <- p1 + p2 + p3 + p4
@@ -50,7 +50,7 @@ abline(h = c(0,1), col = "red")
 
 
 try_b <- seq(0.01, 1, length.out = 200)
-plot(try_b, type2_error(b =try_b), ylab = c("Type 2 Error"))
+plot(try_b, type2_error(b =try_b, rho = -0.7), ylab = c("Type 2 Error"))
 abline(h = c(0,1), col = "red")
 # found by optim
 
@@ -115,7 +115,7 @@ abline(h = c(0,1), col = "red")
 
 
 try_b <- seq(0.01, 1, length.out = 200)
-plot(try_b, sun_type2_error(try_b, rho = -.7))
+plot(try_b, sun_type2_error(try_b, rho = .7), ylab = c("Type 2 Error"))
 abline(h = c(0,1), col = "red")
 
 

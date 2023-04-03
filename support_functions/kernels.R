@@ -43,6 +43,7 @@ parzen <- function(x){
 
 # Lugsail Transformation (main)
 lugsail <- function(x, lugsail_parameters, the_kernel= bartlett){
+  browser()
   r <- lugsail_parameters$r 
   c <- lugsail_parameters$c
   
@@ -50,6 +51,12 @@ lugsail <- function(x, lugsail_parameters, the_kernel= bartlett){
   y1 <- the_kernel(x)/(1-c) 
   y2 <- 0 
   
+  # If QS, then always include the extra bit. 
+  if(deparse(substitute(the_kernel)) == "qs"){
+    y2 <- the_kernel(x*r)*c/(1-c) 
+  }
+  
+  # If not QS, then you need to check
   if(abs(x) < 1/r){
     y2 <- the_kernel(x*r)*c/(1-c) 
   }
