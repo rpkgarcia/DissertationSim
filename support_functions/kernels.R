@@ -67,7 +67,7 @@ lugsail <- function(x, lugsail_parameters, the_kernel= bartlett){
 # Lugsail Support Function to get lugsail parmeters  
 # (default) b = Andrews (1991) Rule
 get_lugsail_parameters <- function(big_T, q, method = "Zero", 
-                                  b = 0.75*big_T^(-2*q/(2*q+1))){
+                                  b = 0.75*big_T^(-(2*q)/(2*q+1))){
   
   if(method == "Over"){
     r <- 3
