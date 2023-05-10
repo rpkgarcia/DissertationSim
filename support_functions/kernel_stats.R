@@ -12,9 +12,35 @@ all_q <- list(bartlett= 1,
               parzen = 2, 
               qs =2)
 
-all_g_q <- list(bartlett= 1, 
-                parzen = 6, 
-                qs =1.42)
+all_g_q <- list(bartlett= list(mother = 1, 
+                               zero = 0, 
+                               adaptive = NA, 
+                               over = NA), 
+                parzen = list(mother = 6, 
+                              zero = 0, 
+                              adaptive = NA, 
+                              over = NA), 
+                qs =list(mother = 1.42, 
+                         zero = 0, 
+                         adaptive = NA, 
+                         over = NA))
+
+para <- get_lugsail_parameters(200, 1, "Adaptive")
+all_g_q$bartlett$adaptive <- (1-para$c*para$r)*all_g_q$bartlett$mother/(1-para$c)
+para <- get_lugsail_parameters(200, 1, "Over")
+all_g_q$bartlett$over <- (1-para$c*para$r)*all_g_q$bartlett$mother/(1-para$c)
+
+
+para <- get_lugsail_parameters(200, 2, "Adaptive")
+all_g_q$parzen$adaptive <- (1-para$c*para$r^2)*all_g_q$parzen$mother/(1-para$c)
+para <- get_lugsail_parameters(200, 2, "Over")
+all_g_q$parzen$over <- (1-para$c*para$r^2)*all_g_q$parzen$mother/(1-para$c)
+
+
+para <- get_lugsail_parameters(200, 2, "Adaptive")
+all_g_q$qs$adaptive <- (1-para$c*para$r^2)*all_g_q$qs$mother/(1-para$c)
+para <- get_lugsail_parameters(200, 2, "Over")
+all_g_q$qs$over <- (1-para$c*para$r^2)*all_g_q$qs$mother/(1-para$c)
 
 
 all_w_q <- function(q, rho){

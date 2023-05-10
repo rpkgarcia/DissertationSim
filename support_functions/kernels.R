@@ -73,7 +73,10 @@ get_lugsail_parameters <- function(big_T, q, method = "Zero",
     r <- 3
     c <- 2/(1+r^q)
     
-  } else if(method == "Adaptive"){
+  } else if(method == "Mother"){
+    r <- 1
+    c <- 0 
+  }else if(method == "Adaptive"){
     r <- 2
     M  <- big_T * b
     c_num <- (log(big_T) - log(M) + 1)

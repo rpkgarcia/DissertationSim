@@ -51,7 +51,22 @@ F_stats <- function(b, sim_data, the_means, all_autocovariances,
   
   # Calculate F-statistics for d = 1, ...., d_max for each simulation 
   F_stat <- sapply(1:d_max, function(d){
-    omega_hat_inv = solve(omega_hat[1:d, 1:d])
+    #omega_hat_inv = solve(omega_hat[1:d, 1:d])
+    if(d ==1){
+      D_plus <- max(omega_hat[1:d, 1:d],epsilon*big_T^(-.9))
+      omega_hat_inv <- 1/D_plus
+      num <- (the_means- null_means)[1:1]
+      F_stat <- (num*omega_hat_inv*num)
+    } else{
+      V_hat <- diag(diag(omega_hat[1:d, 1:d]))
+      V_hat_inv <- V_hat
+      diag(V_hat_inv) <- diag(1/V_hat)
+      C_hat <- V_hat_inv^(1/2) %*% omega_hat[1:d, 1:d] %*% V_hat_inv^(1/2)
+      eigen_C_hat<- eigen(C_hat)
+      epsilon <- sqrt(log(big_T)/d)
+      D_plus <- sapply(eigen_C_hat$values, max, epsilon*big_T^(-.9))
+      omega_hat_inv <- V_hat^(1/2)*t(eigen_C_hat$vectors)*diag(D_plus)*eigen_C_hat$vectors*V_hat^(1/2)
+    } 
     num <- (the_means- null_means)[1:d]
     F_stat = (num%*% omega_hat_inv %*%num)/d
   })
@@ -75,9 +90,9 @@ simulate_f_stat <- function(big_T = 1000, d_max = 12){
   
   # Simulate the data 
   sim_data <- matrix(rnorm(d_max*big_T), nrow = big_T, ncol = d_max)
-  the_means <- colMeans(the_sim_data)
-  the_sim_data <- apply(the_sim_data, 1, function(row) row - the_means)
-  the_sim_data <- t(the_sim_data)
+  the_means <- colMeans(sim_data)
+  sim_data <- apply(sim_data, 1, function(row) row - the_means)
+  sim_data <- t(sim_data)
   
   # ------- AutoCovariance Matrices  -------
   # [#, ] the lag (0, ..., big_T-1)
@@ -163,7 +178,7 @@ try_b <-  seq(0.005, .99, by = 0.005)
 
 # How many replicates
 # KV005 used 50,0000
-num_replicates <- 10000
+num_replicates <- 100
 
 # Sample size of each replicate
 big_T = 1000

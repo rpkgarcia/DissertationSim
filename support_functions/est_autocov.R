@@ -5,12 +5,12 @@
 
 # the_sim_data: 
 #     - Contains `big_T` simulated dependent random vectors of dimension (d x 1).
-#     - already centered. 
+#     - Center the errors that are supplied because we have a centered kernel  
 # h: is the lag-h autocovariance calculated
 
 R <- function(h, the_sim_data){
   big_T <- nrow(the_sim_data)
-  index <- 1:(big_T -h)
+  index <- 1:(big_T-h)
   
   
   # Already centered
