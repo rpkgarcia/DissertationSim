@@ -1,8 +1,6 @@
 # This is only for one-dimension 
-library("stringr")
-library(dplyr)
-library(tidyverse)
 
+setwd("~/Documents/GitHub/DissertationSim/fixed_b_asymptotics/1_dimensional/Fixed_b_CV_Tables_New")
 
 # -------------------------------------------------------------------------
 # Fitted CV ---------------------------------------------------------------
@@ -25,7 +23,7 @@ fitted_model <- function(d=1, cv_matrix, alpha){
 
 
 # -------------------------------------------------------------------------
-# Fitted CV ---------------------------------------------------------------
+# Generate all Fitted CV --------------------------------------------------
 # -------------------------------------------------------------------------
 
 files <- list.files()
@@ -51,4 +49,37 @@ for(the_file in files){
 
 # Store the results for easy access 
 the_fits <- the_fits[-1, ]
+the_fits$lugsail <- factor(the_fits$lugsail, 
+                           levels = c("Mother", "Zero", "Adapt", "Over"), 
+                           order = T)
+the_fits <- the_fits[order(the_fits$kernel, the_fits$lugsail, the_fits$alpha), ]
 write.csv(the_fits, "fitted_CV.csv",row.names = F) 
+
+
+# -------------------------------------------------------------------------
+# Find Specific CV --------------------------------------------------------
+# -------------------------------------------------------------------------
+
+# New_b is a vector of b values (could have length >1) of which 
+# you want to find the CV for. 
+
+get_cv <- function(d, alpha, the_kernel, lugsail, new_b){
+  # Read in all fitted values 
+  the_fits <- read.csv(fitted_cv)
+  chisq_cv <-  qchisq(1-alpha, df = d)/d 
+  
+  # Pull out only the values you need 
+  index <- the_fits$kernel == the_kernel & the_fits$lugsail == lugsail &
+    the_fits$alpha == alpha & the_fits$d == d
+  
+  coefficients <- the_fits[index, c("beta1", "beta2","beta3")]
+  intercept <-  the_fits[index, c("intercept")]
+  
+  # Fitted value of b 
+  new_b<-data.frame(poly(new_b, 3, raw = T))
+  cv_by_b <- apply(new_b, 1, function(x) sum(x*coefficients))
+  cv_by_b <- cv_by_b + chisq_cv
+  
+  return(cv_by_b)
+}
+

@@ -1,7 +1,7 @@
 # -------------------------------------------------------------------------
 # Load Functions ----------------------------------------------------------
 # -------------------------------------------------------------------------
-
+setwd("~/Documents/GitHub/DissertationSim/fixed_b_asymptotics/1_dimensional")
 
 # Bartlett 
 bartlett <- function(x){
@@ -348,7 +348,7 @@ try_b <-  seq(0.005, .99, by = 0.005)
 
 # How many replicates
 # KV005 used 50,0000
-num_sims <- 5000
+num_sims <- 10000
 
 # Sample size of each replicate
 big_T = 1000
